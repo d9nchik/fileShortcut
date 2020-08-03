@@ -1,11 +1,29 @@
-// @ts-ignore
-let express = require('express');
+import express = require('express');
+import * as path from "path";
+require("mime");
+require('http-errors');
 let router = express.Router();
-
 /* GET users listing. */
-router.get('/', function(req, res) {
-    res.send('Hi');
+router.get('/', function (req, res, next) {
+    let pat = path.join(__dirname, '../public/files')
+    const options = {
+        root: pat,
+        dotfiles: 'deny',
+        headers: {
+            'x-timestamp': Date.now(),
+            'x-sent': true
+        }
+    };
+
+    const fileName = req.originalUrl.toString().replace("/f/", "");
+    console.log(fileName)
+    res.sendFile(fileName, options, function (err) {
+        if (err) {
+            next(err)
+        } else {
+            console.log('Sent:', fileName)
+        }
+    })
 });
 
-// @ts-ignore
-module.exports=router;
+module.exports = router;
