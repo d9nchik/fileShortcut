@@ -3,7 +3,8 @@
     "module": "commonjs",
     "target": "es5",
     "sourceMap": true,
-    "strict": true
+    "strict": true,
+    "downlevelIteration": true //generates too many code
   },
   "exclude": [
     "node_modules",
